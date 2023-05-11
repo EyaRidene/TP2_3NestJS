@@ -1,11 +1,13 @@
-// il manque les messages d'erreurs
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AddTodoDto {
-  @IsString()
+export class UpdateUserDto {
   @IsNotEmpty()
-  name: string;
   @IsString()
+  username: string;
   @IsNotEmpty()
-  description: string;
+  @IsString()
+  email: string;
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 }

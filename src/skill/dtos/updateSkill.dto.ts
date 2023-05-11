@@ -1,11 +1,7 @@
-// il manque les messages d'erreurs
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AddTodoDto {
-  @IsString()
+export class UpdateSkillDto {
   @IsNotEmpty()
-  name: string;
   @IsString()
-  @IsNotEmpty()
   description: string;
 }

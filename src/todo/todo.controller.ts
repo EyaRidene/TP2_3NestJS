@@ -56,13 +56,14 @@ export class TodoControllerV2 {
   async getTodosPaginated(
     @Query() queryParam: PaginatedTodoDto,
   ): Promise<TodoEntity[]> {
-    return await this.todoService.getTodosV2Paginated(queryParam);
+    const { page, item } = queryParam;
+    return await this.todoService.paginateTodos(+page, +item);
   }
   @Get('criteria')
   async getTodoByCriteria(
     @Query() queryParam: FindTodoDto,
   ): Promise<TodoEntity[]> {
-    return await this.todoService.getTodoByCriteria(queryParam);
+    return await this.todoService.getByCriteriaOR(queryParam);
   }
   @Get('stats')
   async CountTodos() {

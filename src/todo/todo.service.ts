@@ -4,7 +4,7 @@ import { AddTodoDto } from './dtos/addTodo.dto';
 import { TodoStatusEnum } from './enum/todoStatus.enum';
 import { UpdateTodoDto } from './dtos/updateTodo.dto';
 import { Provide_Tokens } from '../common/common.module';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { TodoEntity } from './entities/todo.entity';
 import { FindTodoDto } from './dtos/findTodo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -73,15 +73,21 @@ export class TodoService {
   async getTodosV2(): Promise<TodoEntity[]> {
     return this.todoRepository.find();
   }
+  async paginateTodos(page: number, offset: number) {
+    return await this.todoRepository.find({
+      skip: offset * page,
+      take: offset,
+    });
+  }
   async getTodosV2Paginated({
     page,
     item,
   }: PaginatedTodoDto): Promise<TodoEntity[]> {
     const query = this.todoRepository.createQueryBuilder('todo');
     const pagination = { page, item };
-
     return this.paginating(query, pagination).todoRepository.find();
   }
+
   async getTodoByIdV2(id: number): Promise<TodoEntity> {
     const todo = await this.todoRepository.findOneBy({ id });
     if (!todo) {
@@ -124,30 +130,47 @@ export class TodoService {
     return await this.getTodoByIdV2(id);
   }
   async countStatus() {
-    const EnAttente = await this.todoRepository.findAndCount({
-      where: { status: 'EnAttente' },
-    });
-    const EnCours = await this.todoRepository.findAndCount({
-      where: { status: 'EnCours' },
-    });
-    const fin = await this.todoRepository.findAndCount({
-      where: { status: 'Finalisé' },
-    });
-    return `Il ya ${EnAttente} todos en attente ${EnCours}  todos en cours et ${fin} todos terminés !`;
+    const EnCours = await this.todoRepository.count({where : {status : TodoStatusEnum.actif}});
+    const EnAttente = await this.todoRepository.count({where : {status : TodoStatusEnum.waiting}});
+    const fin = await this.todoRepository.count({where : {status : TodoStatusEnum.done}});
+    return { actif: EnCours, waiting: EnAttente, done: fin };
   }
-  async getTodoByCriteria({
+
+  /*  async getTodoByCriteria({
     criteria,
     status,
   }: FindTodoDto): Promise<TodoEntity[]> {
     const query = this.todoRepository.createQueryBuilder('todo');
     if (criteria) {
-      query
+      await query
         .where('todo.name LIKE :data', { data: `%${criteria}%` })
         .orWhere('todo.description LIKE :data', { data: `%${criteria}%` });
     }
     if (status) {
-      query.andWhere('todo.status = :status', { status });
+      await query.andWhere('todo.status = :status', { status:status });
     }
     return query.getMany();
+  }*/
+  async getByCriteriaOR(searchDto: FindTodoDto) {
+    const { status, criteria } = searchDto;
+    const qb = this.todoRepository.createQueryBuilder('todo');
+    if (status) {
+      return await qb
+        .where({
+          status: In([
+            TodoStatusEnum.actif,
+            TodoStatusEnum.done,
+            TodoStatusEnum.waiting,
+          ]),
+        })
+        .getRawMany();
+    }
+    if (criteria) {
+      return await qb
+        .where('todo.name= :criteria OR todo.description= :criteria')
+        .setParameters({ criteria })
+        .getRawMany();
+    }
+    return await this.getTodos();
   }
 }
