@@ -1,6 +1,6 @@
 import { TodoStatusEnum } from '../enum/todoStatus.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TimeStampEntity } from '../../Generics/timeStamp.entity';
+import { TimeStampEntity } from '../../../Generics/timeStamp.entity';
 
 @Entity('todo')
 export class TodoEntity extends TimeStampEntity {

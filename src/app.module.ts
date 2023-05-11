@@ -6,17 +6,17 @@ import {
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TodoModule } from './todo/todo.module';
+import { TodoModule } from './TP2/todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
-import { CvModule } from './cv/cv.module';
-import { SkillModule } from './skill/skill.module';
-import { UserModule } from './user/user.module';
-import { TodoEntity } from './todo/entities/todo.entity';
-import { CvEntity } from './cv/entities/cv.entity';
-import { UserEntity } from './user/entities/user.entity';
-import { SkillEntity } from './skill/entities/skill.entity';
-import { AuthMiddleware } from './Middelware/authentification.middelware';
+import { CvModule } from './TP3/cv/cv.module';
+import { SkillModule } from './TP3/skill/skill.module';
+import { UserModule } from './TP3/user/user.module';
+import { TodoEntity } from './TP2/todo/entities/todo.entity';
+import { CvEntity } from './TP3/cv/entities/cv.entity';
+import { UserEntity } from './TP3/user/entities/user.entity';
+import { SkillEntity } from './TP3/skill/entities/skill.entity';
+import { AuthMiddleware } from './TP3/Middelware/authentification.middelware';
 
 @Module({
   imports: [

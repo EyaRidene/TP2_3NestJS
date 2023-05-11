@@ -3,7 +3,7 @@ import { TodoModel } from './models/todo.model';
 import { AddTodoDto } from './dtos/addTodo.dto';
 import { TodoStatusEnum } from './enum/todoStatus.enum';
 import { UpdateTodoDto } from './dtos/updateTodo.dto';
-import { Provide_Tokens } from '../common/common.module';
+import { Provide_Tokens } from '../../common/common.module';
 import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { TodoEntity } from './entities/todo.entity';
 import { FindTodoDto } from './dtos/findTodo.dto';

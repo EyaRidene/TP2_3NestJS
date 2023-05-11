@@ -6,14 +6,15 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post, Query,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { AddTodoDto } from './dtos/addTodo.dto';
 import { UpdateTodoDto } from './dtos/updateTodo.dto';
 import { TodoEntity } from './entities/todo.entity';
-import {FindTodoDto} from "./dtos/findTodo.dto";
-import {PaginatedTodoDto} from "./dtos/paginatedTodo.dto";
+import { FindTodoDto } from './dtos/findTodo.dto';
+import { PaginatedTodoDto } from './dtos/paginatedTodo.dto';
 
 @Controller({ path: 'todo', version: '1' })
 export class TodoController {
@@ -70,7 +71,9 @@ export class TodoControllerV2 {
     return await this.todoService.countStatus();
   }
   @Get('restore/:id')
-  async restoreTodo(@Param('id', ParseIntPipe) id: number,): Promise<TodoEntity> {
+  async restoreTodo(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<TodoEntity> {
     return await this.todoService.restoreTodo(id);
   }
   @Get(':id')

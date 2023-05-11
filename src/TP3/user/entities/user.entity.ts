@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { TimeStampEntity } from '../../Generics/timeStamp.entity';
+import { TimeStampEntity } from '../../../Generics/timeStamp.entity';
 import { CvEntity } from '../../cv/entities/cv.entity';
 
 @Entity('user')

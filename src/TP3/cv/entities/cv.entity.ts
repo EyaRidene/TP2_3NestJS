@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TimeStampEntity } from '../../Generics/timeStamp.entity';
+import { TimeStampEntity } from '../../../Generics/timeStamp.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { SkillEntity } from '../../skill/entities/skill.entity';
 @Entity('cv')
