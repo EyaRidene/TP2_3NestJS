@@ -46,6 +46,5 @@ export class CvEntity extends TimeStampEntity {
   @ManyToMany((type) => SkillEntity, (skill) => skill.cvs, {
     eager: true,
   })
-  @JoinTable()
   skills: SkillEntity[];
 }
